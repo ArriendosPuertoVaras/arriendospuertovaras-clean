@@ -9,7 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Download, Globe, RefreshCw } from "lucide-react";
 
-export default function SitemapGenerator() {
+export default SiteMapGenerator;
   const [sitemap, setSitemap] = useState("");
   const [loading, setLoading] = useState(false);
   const [stats, setStats] = useState({
