@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { User } from "@/api/entities";
 import { SEOSettings } from "@/api/entities";
-import SitemapGenerator from "@/components/analytics/SitemapGenerator";
+import SitemapGenerator from "../components/analytics/SitemapGenerator.jsx";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
