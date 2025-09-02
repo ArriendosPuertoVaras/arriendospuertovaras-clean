@@ -1,0 +1,12 @@
+name = "transbank-worker"
+main = "worker.js"
+compatibility_date = "2024-09-01"
+
+[vars]
+# Set this to your site base, e.g. https://arriendospuertovaras.cl
+BASE_URL = ""
+
+# To run locally:
+# 1) Install wrangler: npm i -g wrangler
+# 2) wrangler dev
+# 3) For deploy: wrangler publish
