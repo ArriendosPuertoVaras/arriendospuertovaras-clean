@@ -27,7 +27,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"; // <-- Componente agregado
-import { generateXMLSitemap } from "@/components/utils/sitemapGenerator"; // <-- Funcionalidad agregada
+import { generateXMLSitemap } from "@/components/utils/siteMapGenerator.jsx";
 import { generateCSVChecklist } from "@/components/utils/siteChecklistGenerator"; // <-- Funcionalidad agregada
 import { toast } from "sonner"; // <-- Componente agregado
 
