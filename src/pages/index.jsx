@@ -90,8 +90,6 @@ import JaimeWeatherAPI from "./JaimeWeatherAPI";
 
 import robots from "./robots";
 
-// import sitemap from "./sitemap";
-
 import AdminErrors from "./AdminErrors";
 
 import CompanyData from "./CompanyData";
