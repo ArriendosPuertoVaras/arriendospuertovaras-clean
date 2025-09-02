@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from 'react';
 import { Property } from "@/api/entities";
 import { BlogPost } from "@/api/entities";
 import { ProfessionalService } from "@/api/entities";
@@ -9,7 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Download, Globe, RefreshCw } from "lucide-react";
 
-export default SiteMapGenerator;
+const SiteMapGenerator = () => {
   const [sitemap, setSitemap] = useState("");
   const [loading, setLoading] = useState(false);
   const [stats, setStats] = useState({
