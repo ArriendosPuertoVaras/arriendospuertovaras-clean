@@ -3,6 +3,7 @@
 'use client';
 import React, { useState, useEffect, useCallback } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom"; // Added useNavigate
+import { Outlet } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import {
   Home,
@@ -358,7 +359,7 @@ export default function Layout({ children, currentPageName }) {
     navigate(-1);
   };
 
-  const isHomePage = currentPageName === 'Home';
+  const isHomePage = true; // mostrar footer en todas las páginas (temporal)
   const navItemClass = "py-2 px-3 rounded-md hover:bg-slate-100 transition-colors duration-200 flex items-center gap-2 text-sm font-medium";
   const navItemTextClass = "hidden sm:inline";
 
@@ -660,10 +661,10 @@ export default function Layout({ children, currentPageName }) {
             </div>
           </div>
         </header>
+      <main className="flex-grow bg-[#e0e0e0]">
+     {children ?? <Outlet />}
+     </main>
 
-        <main className="flex-grow bg-[#e0e0e0]">
-          {children}
-        </main>
 
         {isHomePage &&
           <>

@@ -1,22 +1,32 @@
-import React from 'react';
-import RouterRoot from './router.jsx';
-export default function App(){ return <RouterRoot/> }
-import { HashRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter, HashRouter, Routes, Route } from "react-router-dom";
 
-import Home from "./pages/index.jsx";
-import PaymentWebpayReturn from "./pages/PaymentWebpayReturn.jsx";
+import Layout from "./pages/Layout.jsx";
+import Home from "./pages/Home.jsx";
+import Contact from "./pages/Contact.jsx";
+import Dashboard from "./pages/Dashboard.jsx";
+import AdminDashboard from "./pages/AdminDashboard.jsx";
+import Blog from "./pages/Blog.jsx";
+import HelpCenter from "./pages/HelpCenter.jsx";
+
+// HashRouter en local, BrowserRouter en prod
+const useHash = import.meta?.env?.VITE_USE_HASH === "true";
+const RouterImpl = useHash ? HashRouter : BrowserRouter;
 
 export default function App() {
   return (
-    <Router>
+    <RouterImpl>
       <Routes>
-        <Route path="/" element={<Home />} />
-        {/* Retorno Webpay (dos variantes) */}
-        <Route path="/PaymentWebpayReturn" element={<PaymentWebpayReturn />} />
-        <Route path="/payment/webpay/return" element={<PaymentWebpayReturn />} />
-        {/* Fallback */}
-        <Route path="*" element={<Home />} />
+        {/* Envolvemos todas las rutas con tu Layout */}
+        <Route element={<Layout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/dashboard/*" element={<Dashboard />} />
+          <Route path="/admin/*" element={<AdminDashboard />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/help" element={<HelpCenter />} />
+          <Route path="*" element={<Home />} />
+        </Route>
       </Routes>
-    </Router>
+    </RouterImpl>
   );
 }
