@@ -359,7 +359,7 @@ export default function Layout({ children, currentPageName }) {
     navigate(-1);
   };
 
-  const isHomePage = currentPageName === 'Home';
+  const isHomePage = true; // mostrar footer en todas las páginas (temporal)
   const navItemClass = "py-2 px-3 rounded-md hover:bg-slate-100 transition-colors duration-200 flex items-center gap-2 text-sm font-medium";
   const navItemTextClass = "hidden sm:inline";
 
