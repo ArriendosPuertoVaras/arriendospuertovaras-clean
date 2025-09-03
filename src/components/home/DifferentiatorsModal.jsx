@@ -15,7 +15,7 @@ const FeatureItem = ({ icon: Icon, title, children, iconBgColor = 'bg-yellow-100
 
 export default function DifferentiatorsModalContent() {
   return (
-    <div className="space-y-6 max-h-[80vh] overflow-y-auto p-1 pr-4">
+      <div className="bg-white text-slate-900 rounded-2xl shadow-2xl border border-slate-200 p-6 md:p-8 space-y-6 max-h-[80vh] overflow-y-auto w-[min(92vw,880px)] mx-auto">
       <div className="text-center mb-8">
         <h2 className="text-3xl font-bold text-slate-900">¿Qué nos hace diferentes?</h2>
         <p className="text-slate-600 mt-2 max-w-3xl mx-auto">
