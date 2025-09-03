@@ -7,6 +7,9 @@ import Dashboard from "./pages/Dashboard.jsx";
 import AdminDashboard from "./pages/AdminDashboard.jsx";
 import Blog from "./pages/Blog.jsx";
 import HelpCenter from "./pages/HelpCenter.jsx";
+import AddProperty from "./pages/AddProperty.jsx";
+import AddService from "./pages/AddService.jsx";
+import BecomeHost from "./pages/BecomeHost.jsx";     // (si no existe, no pasa nada: lo comentamos luego)
 
 // NUEVO
 import Properties from "./pages/Properties.jsx";
