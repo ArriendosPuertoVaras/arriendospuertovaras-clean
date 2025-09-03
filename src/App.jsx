@@ -1,22 +1,31 @@
-import React from 'react';
-import RouterRoot from './router.jsx';
-export default function App(){ return <RouterRoot/> }
-import { HashRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import Home from "./pages/index.jsx";
-import PaymentWebpayReturn from "./pages/PaymentWebpayReturn.jsx";
+// Páginas que ya confirmamos que existen:
+import Home from "@/pages/Home";
+import Contact from "@/pages/Contact";
+import Dashboard from "@/pages/Dashboard";
+import AdminDashboard from "@/pages/AdminDashboard";
+import Blog from "@/pages/Blog";
+import HelpCenter from "@/pages/HelpCenter";
 
 export default function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        {/* Retorno Webpay (dos variantes) */}
-        <Route path="/PaymentWebpayReturn" element={<PaymentWebpayReturn />} />
-        <Route path="/payment/webpay/return" element={<PaymentWebpayReturn />} />
-        {/* Fallback */}
-        <Route path="*" element={<Home />} />
-      </Routes>
-    </Router>
+    <BrowserRouter>
+      <div className="min-h-screen flex flex-col">
+        {/* (Shell UI se conecta en el siguiente paso) */}
+        <main className="flex-1">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/dashboard/*" element={<Dashboard />} />
+            <Route path="/admin/*" element={<AdminDashboard />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/help" element={<HelpCenter />} />
+            {/* Fallback al Home para rutas inexistentes */}
+            <Route path="*" element={<Home />} />
+          </Routes>
+        </main>
+      </div>
+    </BrowserRouter>
   );
 }
