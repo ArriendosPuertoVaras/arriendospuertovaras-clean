@@ -10,3 +10,4 @@ dist/
 .env.*
 *.zip
 .vercel
+*.php
