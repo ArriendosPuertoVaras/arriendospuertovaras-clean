@@ -1,93 +1,63 @@
-import React, { useEffect, useState } from "react";
+// src/pages/ServicesHub.jsx
+import React from "react";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
-import {
-  Sparkles,
-  Wrench,
-  Car,
-  Utensils,
-  TreePine,
-  Users
-} from "lucide-react";
 
-// 🔒 Toggle temporal mientras no hay backend:
-const USE_MOCK = true;
-
-const ICONS = { Sparkles, Wrench, Car, Utensils, TreePine, Users };
-
-// 🔧 Categorías mock (míralas, ajusta textos si quieres)
-const MOCK_CATEGORIES = [
-  { id: "limpieza", name: "Limpieza y Aseo", icon: "Sparkles", slug: "limpieza",
-    description: "Equipos profesionales para turnover y aseo profundo." },
-  { id: "mantencion", name: "Mantención", icon: "Wrench", slug: "mantencion",
-    description: "Gasfitería, electricidad, pintura y arreglos generales." },
-  { id: "transporte", name: "Transporte y Traslados", icon: "Car", slug: "transporte",
-    description: "Traslados al aeropuerto, tours y logística local." },
-  { id: "gastronomia", name: "Experiencias Gastronómicas", icon: "Utensils", slug: "gastronomia",
-    description: "Chefs a domicilio, catas, box gourmet." },
-  { id: "jardineria", name: "Jardinería y Paisajismo", icon: "TreePine", slug: "jardineria",
-    description: "Corte, poda y mantención de exteriores." },
-  { id: "post", name: "Post-arriendo", icon: "Users", slug: "post-arriendo",
-    description: "Recepción de huéspedes, entrega de llaves, supervisión." }
+const CATEGORIES = [
+  { id: "cleaning", name: "Limpieza y Aseo", go: createPageUrl("Properties") + "?category=cleaning" },
+  { id: "maintenance", name: "Mantención", go: createPageUrl("Properties") + "?category=maintenance" },
+  { id: "transport", name: "Transporte y Traslados", go: createPageUrl("Properties") + "?category=transport" },
 ];
 
 export default function ServicesHub() {
-  const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    // 🚫 No llamamos backend por ahora
-    if (USE_MOCK) {
-      setCategories(MOCK_CATEGORIES);
-      setLoading(false);
-      return;
-    }
-
-    // 🧪 Si quieres, aquí queda el fetch real para más adelante:
-    // try {
-    //   const rows = await ServiceCategory.filter({ show_on_services: true }, "display_order");
-    //   setCategories(rows || []);
-    // } catch (e) {
-    //   setCategories(MOCK_CATEGORIES); // fallback
-    // } finally {
-    //   setLoading(false);
-    // }
-  }, []);
-
   return (
-    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-10">
-      <h1 className="text-3xl font-bold text-center">
-        Un Mundo de Servicios y Experiencias
-      </h1>
-      <p className="text-center text-slate-600 mt-2 max-w-3xl mx-auto">
-        Desde soluciones para tu hogar hasta experiencias inolvidables.
-        Encuentra u ofrece servicios verificados en Puerto Varas.
-      </p>
+    <div className="min-h-screen bg-slate-100">
+      <div className="max-w-5xl mx-auto px-4 py-10">
+        <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 mb-2">
+          Un Mundo de Servicios y Experiencias
+        </h1>
+        <p className="text-slate-600 mb-8">
+          Desde soluciones para tu hogar hasta experiencias inolvidables.
+        </p>
 
-      {loading ? (
-        <div className="mt-10 text-center text-slate-500">Cargando…</div>
-      ) : (
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-          {categories.map((cat) => {
-            const Icon = ICONS[cat.icon] || Users;
-            return (
-              <Link
-                key={cat.id}
-                to={createPageUrl("ServicesHub") + `?category=${cat.slug}`}
-                className="block rounded-xl p-6 bg-white shadow hover:shadow-lg transition"
-              >
-                <div className="flex items-center gap-3">
-                  <Icon className="w-5 h-5" />
-                  <div className="font-semibold">{cat.name}</div>
+        {/* grid de categorías: cada tarjeta es un Link real */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {CATEGORIES.map((cat) => (
+            <Link
+              key={cat.id}
+              to={cat.go}
+              className="block rounded-xl bg-white shadow-sm hover:shadow-md transition
+                         ring-1 ring-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <div className="p-5">
+                <div className="text-lg font-semibold text-slate-900">{cat.name}</div>
+                <div className="mt-2 text-sm text-slate-500">
+                  Ver resultados relacionados en propiedades
                 </div>
-                {cat.description && (
-                  <p className="text-sm mt-2 text-slate-600">{cat.description}</p>
-                )}
-              </Link>
-            );
-          })}
+                <div className="mt-4 inline-flex items-center text-blue-600 font-medium">
+                  Explorar →
+                </div>
+              </div>
+            </Link>
+          ))}
         </div>
-      )}
+
+        {/* Acciones adicionales */}
+        <div className="mt-10 flex flex-wrap gap-3">
+          <Link
+            to={createPageUrl("Properties")}
+            className="px-4 py-2 rounded-lg bg-white ring-1 ring-slate-300 hover:bg-slate-50"
+          >
+            Ver todas las propiedades
+          </Link>
+          <Link
+            to={createPageUrl("Home")}
+            className="px-4 py-2 rounded-lg bg-white ring-1 ring-slate-300 hover:bg-slate-50"
+          >
+            Volver al inicio
+          </Link>
+        </div>
+      </div>
     </div>
   );
 }
