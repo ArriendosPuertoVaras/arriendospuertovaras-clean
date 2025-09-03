@@ -3,6 +3,7 @@
 'use client';
 import React, { useState, useEffect, useCallback } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom"; // Added useNavigate
+import { Outlet } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import {
   Home,
@@ -660,10 +661,10 @@ export default function Layout({ children, currentPageName }) {
             </div>
           </div>
         </header>
+      <main className="flex-grow bg-[#e0e0e0]">
+     {children ?? <Outlet />}
+     </main>
 
-        <main className="flex-grow bg-[#e0e0e0]">
-          {children}
-        </main>
 
         {isHomePage &&
           <>
