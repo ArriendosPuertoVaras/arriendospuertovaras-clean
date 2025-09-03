@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "vite",
+    "build": "vite build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "preview": "vite preview"
   },
   "dependencies": {
     "@base44/sdk": "^0.7.0",
