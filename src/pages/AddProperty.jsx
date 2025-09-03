@@ -276,8 +276,7 @@ export default function AddPropertyPage() {
     setLoading(false);
   };
 
-  const optimizeImage = async (file) => file; // 🔕 sin optimizar
-
+  const optimizeImage = async (file) => file; // 🔕 sin optimizar {
     return new Promise((resolve, reject) => {
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
