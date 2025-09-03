@@ -1,5 +1,8 @@
 import { BrowserRouter, HashRouter, Routes, Route } from "react-router-dom";
+// Páginas que faltaban
 
+import Properties from "./pages/Properties.jsx";
+import ServicesHub from "./pages/ServicesHub.jsx";
 import Layout from "./pages/Layout.jsx";
 import Home from "./pages/Home.jsx";
 import Contact from "./pages/Contact.jsx";
@@ -18,6 +21,14 @@ export default function App() {
       <Routes>
         {/* Envolvemos todas las rutas con tu Layout */}
         <Route element={<Layout />}>
+        {/* Propiedades */}
+          <Route path="/properties/*" element={<Properties />} />
+          <Route path="/propiedades/*" element={<Properties />} />
+
+           {/* Servicios */}
+          <Route path="/services/*" element={<ServicesHub />} />
+          <Route path="/servicios/*" element={<ServicesHub />} />
+
           <Route path="/" element={<Home />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/dashboard/*" element={<Dashboard />} />
