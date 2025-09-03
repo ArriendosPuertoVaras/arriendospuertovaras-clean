@@ -1,6 +1,6 @@
 import { BrowserRouter, HashRouter, Routes, Route } from "react-router-dom";
 
-import Layout from "./pages/Layout.jsx";      // <- tu layout con Header/Footer
+import Layout from "./pages/Layout.jsx";
 import Home from "./pages/Home.jsx";
 import Contact from "./pages/Contact.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
@@ -16,7 +16,7 @@ export default function App() {
   return (
     <RouterImpl>
       <Routes>
-        {/* Envolvemos TODAS las rutas con tu Layout (debe tener <Outlet/>) */}
+        {/* Envolvemos todas las rutas con tu Layout */}
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
           <Route path="/contact" element={<Contact />} />
