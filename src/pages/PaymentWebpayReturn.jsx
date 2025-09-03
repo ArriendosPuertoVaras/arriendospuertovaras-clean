@@ -1,80 +1,97 @@
-// @ts-nocheck
-// deno-lint-ignore-file
-// /functions/webpayReturn.ts — recibe token_ws, hace commit y redirige
+// src/pages/PaymentWebpayReturn.jsx
+import React, { useEffect, useState } from "react";
 
-import { createClientFromRequest } from "npm:@base44/sdk@0.5.0";
+const CALLBACK_URL  = import.meta.env.VITE_TBK_CALLBACK_URL  || "/api/webpay/return-callback";
+const SUCCESS_URL   = import.meta.env.VITE_TBK_SUCCESS_URL   || "/pago/exito";
+const FAILURE_URL   = import.meta.env.VITE_TBK_FAILURE_URL   || "/pago/error";
+const AUTO_REDIRECT = String(import.meta.env.VITE_TBK_AUTO_REDIRECT || "true").toLowerCase() === "true";
 
-const TBK_BASE_URL       = Deno.env.get("TBK_BASE_URL")       || "";
-const TBK_COMMERCE_CODE  = Deno.env.get("TBK_COMMERCE_CODE")  || "";
-const TBK_API_KEY_SECRET = Deno.env.get("TBK_API_KEY_SECRET") || "";
-const TBK_SUCCESS_URL    = Deno.env.get("TBK_SUCCESS_URL")    || "/";
-const TBK_FAILURE_URL    = Deno.env.get("TBK_FAILURE_URL")    || "/";
+export default function PaymentWebpayReturn() {
+  const [status, setStatus] = useState("init"); // init | sending | ok | fail | notoken | backend-missing
 
-function tbkHeaders() {
-  return {
-    "Tbk-Api-Key-Id": TBK_COMMERCE_CODE,
-    "Tbk-Api-Key-Secret": TBK_API_KEY_SECRET,
-    "Content-Type": "application/json",
-  };
-}
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get("token_ws") || params.get("token");
 
-async function readTokenWs(req) {
-  try {
-    const url = new URL(req.url);
-    const q = url.searchParams.get("token_ws");
-    if (q) return q;
-
-    if (req.method === "POST") {
-      const ct = req.headers.get("content-type") || "";
-
-      if (ct.includes("application/json")) {
-        const j = await req.json().catch(() => null);
-        return (j && (j.token_ws || j.token)) || null;
-      }
-
-      if (ct.includes("application/x-www-form-urlencoded") || ct.includes("multipart/form-data")) {
-        const f = await req.formData();
-        const v = f.get("token_ws");
-        return v ? String(v) : null;
-      }
+    if (!token) {
+      setStatus("notoken");
+      return;
     }
-  } catch {}
-  return null;
-}
 
-Deno.serve(async (req) => {
-  try {
-    const token_ws = await readTokenWs(req);
-    if (!token_ws) return Response.redirect(TBK_FAILURE_URL, 302);
-
-    // Commit en Transbank
-    const r = await fetch(`${TBK_BASE_URL}/rswebpaytransaction/api/webpay/v1.2/transactions/${token_ws}`, {
-      method: "PUT",
-      headers: tbkHeaders(),
-    });
-
-    let commit = {};
-    try { commit = await r.json(); } catch {}
-    const ok = r.ok && commit?.status === "AUTHORIZED" && commit?.response_code === 0;
-
-    // Actualizar la booking (no bloquea si falla)
-    try {
-      const base44 = createClientFromRequest(req);
-      const bookingId = String(commit?.buy_order || "");
-      if (bookingId) {
-        await base44.asServiceRole.entities.Booking.update(bookingId, {
-          payment_status: ok ? "pagado" : "fallido",
-          status: ok ? "confirmada" : (commit?.status || "rechazada"),
-          tbk_authorization_code: commit?.authorization_code ?? null,
-          tbk_transaction_date:  commit?.transaction_date  ?? null,
-          tbk_amount:            commit?.amount           ?? null,
-          tbk_card_detail:       commit?.card_detail ? JSON.stringify(commit.card_detail) : null,
+    const go = async () => {
+      setStatus("sending");
+      try {
+        const r = await fetch(CALLBACK_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ token_ws: token }),
         });
-      }
-    } catch {}
 
-    return Response.redirect(ok ? TBK_SUCCESS_URL : TBK_FAILURE_URL, 302);
-  } catch {
-    return Response.redirect(TBK_FAILURE_URL, 302);
-  }
-});
+        if (r.ok) {
+          setStatus("ok");
+          if (AUTO_REDIRECT) setTimeout(() => (window.location.href = SUCCESS_URL), 600);
+        } else {
+          setStatus("fail");
+          if (AUTO_REDIRECT) setTimeout(() => (window.location.href = FAILURE_URL), 900);
+        }
+      } catch {
+        setStatus("backend-missing");
+        if (AUTO_REDIRECT) setTimeout(() => (window.location.href = FAILURE_URL), 1200);
+      }
+    };
+
+    go();
+  }, []);
+
+  const goSuccess = () => (window.location.href = SUCCESS_URL);
+  const goFailure = () => (window.location.href = FAILURE_URL);
+
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-white text-gray-800 p-6">
+      <div className="w-full max-w-md rounded-2xl border border-border p-6 text-center space-y-3">
+        {(status === "init" || status === "sending") && (
+          <>
+            <h1 className="text-xl font-semibold">Procesando tu pago…</h1>
+            <p className="opacity-70">Confirmando con Webpay, por favor espera.</p>
+          </>
+        )}
+
+        {status === "ok" && (
+          <>
+            <h1 className="text-xl font-semibold">Pago confirmado 👌</h1>
+            <p className="opacity-70">Todo OK.</p>
+          </>
+        )}
+
+        {status === "fail" && (
+          <>
+            <h1 className="text-xl font-semibold">Pago rechazado</h1>
+            <p className="opacity-70">Puedes reintentar.</p>
+          </>
+        )}
+
+        {status === "notoken" && (
+          <>
+            <h1 className="text-xl font-semibold">Falta token</h1>
+            <p className="opacity-70">No encontramos <code>token_ws</code> en el enlace.</p>
+          </>
+        )}
+
+        {status === "backend-missing" && (
+          <>
+            <h1 className="text-xl font-semibold">Callback no disponible</h1>
+            <p className="opacity-70">No pudimos contactar el backend.</p>
+          </>
+        )}
+
+        {/* Botones manuales cuando AUTO_REDIRECT está apagado (local) */}
+        {!AUTO_REDIRECT && (
+          <div className="pt-2 flex gap-3 justify-center">
+            <button onClick={goSuccess} className="px-4 py-2 rounded-xl border border-border">Ir a éxito</button>
+            <button onClick={goFailure} className="px-4 py-2 rounded-xl border border-border">Ir a error</button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}

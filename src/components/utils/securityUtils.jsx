@@ -86,3 +86,47 @@ export const applySecurityPolicies = () => {
 if (typeof window !== 'undefined') {
   window.applySecurityPolicies = applySecurityPolicies;
 }
+
+/**
+ * Limpia texto para inputs/textarea evitando etiquetas y caracteres raros.
+ * Mantiene letras, números, espacios y puntuación básica. Corta a maxLen.
+ */
+export function sanitizeText(input, { maxLen = 1000 } = {}) {
+  const str = String(input ?? '');
+  const noTags = str.replace(/<[^>]*>/g, ' '); // quita tags HTML
+  const cleaned = noTags
+    .replace(/[<>]/g, '')
+    .replace(/[^\p{L}\p{N}\s\.,;:!\?\-_'@/()&%]/gu, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+  return cleaned.slice(0, maxLen);
+}
+
+/**
+ * Valida un payload de formulario básico (honeypot, tamaño y frecuencia).
+ * No bloquea nada crítico: devuelve { ok, reason? }.
+ */
+export function validateFormSecurity(payload = {}) {
+  const { _hp = '', message = '', name = '', email = '' } = payload;
+  if (typeof _hp === 'string' && _hp.trim().length > 0) {
+    return { ok: false, reason: 'honeypot' };
+  }
+  const tooLong = (v, n) => String(v ?? '').length > n;
+  if (tooLong(message, 5000) || tooLong(name, 200) || tooLong(email, 320)) {
+    return { ok: false, reason: 'size' };
+  }
+  return { ok: true };
+}
+
+/**
+ * getClientIP: placeholder que retorna cadena vacía si no hay server request.
+ * En cliente no hay IP real; en SSR/edge puedes implementarla luego.
+ */
+export function getClientIP(/* req */) {
+  try {
+    // Implementar según entorno (SSR / Edge / backend). De momento, stub.
+    return '';
+  } catch {
+    return '';
+  }
+}

@@ -1,13 +1,114 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="https://base44.com/logo_v2.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Base44 APP</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arriendos Puerto Varas</title>
+
+    <!-- Favicon pack -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+
+    <!-- Tipografía (muy similar a la de tu captura) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+
+    
+<style>
+  :root {
+    --brand-yellow: #FCC332;
+  }
+
+  html, body {
+    height: 100%;
+    margin: 0;
+    background: #000;
+    color: #fff;
+    font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  }
+
+  .hero {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .hero img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 35% center; /* 🔥 mismo foco siempre */
+    filter: none;
+  }
+
+  .wrap {
+    position: relative;
+    height: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 28px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    text-align: right;
+    transform: translateY(-28%) translateX(-60px); /* 🔥 fija posición */
+  }
+
+  h1 {
+    margin: 0 0 12px;
+    font-weight: 900;
+    letter-spacing: -.01em;
+    line-height: 1.05;
+    font-size: clamp(36px, 5vw, 72px);
+    color: var(--brand-yellow);
+    text-shadow: none;
+  }
+
+  .subtitle {
+    margin: 0;
+    max-width: 60ch;
+    font-weight: 600;
+    font-size: clamp(16px, 1.6vw, 22px);
+    line-height: 1.55;
+    color: #FFFFFF;
+    text-shadow: none;
+  }
+
+  /* 🔥 Sin cambios en móvil/tablet: se mantiene igual */
+  @media (max-width: 1024px) {
+    .wrap {
+      align-items: flex-end;
+      text-align: right;
+      transform: translateY(-28%) translateX(-60px); /* 🔥 misma posición */
+    }
+    .hero img { object-position: 35% center; }
+  }
+</style>
+
   </head>
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+    <section class="hero" aria-label="Hero Puerto Varas">
+      <!-- Usa tu versión optimizada: hero-1920.jpg o hero-1920.webp -->
+      <img src="/hero-puerto-varas.jpg" alt="Muelle de Puerto Varas con volcán Osorno al fondo" fetchpriority="high">
+      <div class="wrap">
+        <div class="copy">
+          <h1>
+            Vive Puerto Varas<br>
+            como local
+          </h1>
+          <p class="subtitle">
+            Alojamientos únicos, servicios profesionales y experiencias inolvidables
+            en la ciudad de las rosas
+          </p>
+        </div>
+      </div>
+    </section>
   </body>
 </html>
