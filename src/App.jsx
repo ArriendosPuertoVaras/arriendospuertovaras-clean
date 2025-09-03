@@ -15,7 +15,7 @@ export default function App() {
         {/* (Shell UI se conecta en el siguiente paso) */}
         <main className="flex-1">
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="*" element={<Home />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/dashboard/*" element={<Dashboard />} />
             <Route path="/admin/*" element={<AdminDashboard />} />
