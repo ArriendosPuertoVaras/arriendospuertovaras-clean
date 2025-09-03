@@ -8,3 +8,4 @@ dist/
 .next/
 .env
 .env.*
+*.zip
