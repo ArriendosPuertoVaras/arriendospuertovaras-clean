@@ -59,15 +59,7 @@ import AuthSlot from "@/components/auth/AuthSlot";
 import { setupGlobalErrorHandling, trackEvent } from '@/components/utils/EventTracker';
 import { applySecurityPolicies } from '@/components/utils/securityUtils';
 import ConsentBanner from '@/components/ConsentBanner';
-import {
-  captureToken,
-  isAuthenticated,
-  logout,
-  login,
-  loadCurrentUser,
-  User as AuthUserType
-} from
-'@/components/utils/auth';
+import { captureToken, isAuthenticated, logout, login, loadCurrentUser } from "@/components/utils/auth";
 import JaimeChat from "@/components/ai/JaimeChat";
 import ScrollToTop from "@/components/utils/ScrollToTop";
 import { Instagram } from 'lucide-react';
